@@ -1,5 +1,17 @@
 import React, { Component } from 'react'
 import items from '../data'
+import Client from '../contentful'
+
+const getData = async() => {
+  try {
+    let response = await Client.getEntries({
+      content_type: 'hotelResortRoom'
+    })
+    console.log(response)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const RoomContext = React.createContext()
 
@@ -22,6 +34,7 @@ class RoomProvider extends Component {
   }
 
   componentDidMount() {
+    getData()
     let rooms = this.formatData(items)
     let featuredRooms = rooms.filter(room => room.featured === true)
     let maxPrice = Math.max(...rooms.map(item => item.price))
